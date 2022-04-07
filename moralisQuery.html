@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <script src="http://127.0.0.1:5500/dist/moralis.web3api.js"></script> -->
+    <!-- <script src="http://127.0.0.1:5500/dist/moralis.js"></script> -->
+    <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    Moralis.start({
+      appId: "qBhOuJ77S4VFUr7FlilPI6K9LsxUj1bFGM6FmZ7q",
+      serverUrl: "http://localhost:1337/server",
+      // appId: "MUb0iLJ2oqu4xBZEbwnXWVNIJMuKYcy5pMdx1ERK",
+      // serverUrl: "https://y504qcjlqxz4.grandmoralis.com:2053/server",
+      // masterKey: "4kABwDGdAvsWzyTNZnkB9NKnZahvTcvE3NVZ5xWO",
+      // apiKey:
+      //   "NkujuL4hWTRJrcjPxLQRunGEk6yNhylbA8VkUREwneMUQpkOPf7CEkT0m5ccjIiB",
+    });
+    // Moralis.initialize("MUb0iLJ2oqu4xBZEbwnXWVNIJMuKYcy5pMdx1ERK");
+    // Moralis.serverURL = "https://y504qcjlqxz4.grandmoralis.com:2053/server";
+
+    // Web3Api.default.initialize({
+    //   apiKey:
+    //     "NkujuL4hWTRJrcjPxLQRunGEk6yNhylbA8VkUREwneMUQpkOPf7CEkT0m5ccjIiB",
+    //   // serverUrl: "https://y504qcjlqxz4.grandmoralis.com:2053/server",
+    // });
+    console.log("server", Moralis.serverURL.split("/")[2]);
+    console.log(
+      "test",
+      Moralis.Cloud.run("test_logger").then(console.log)
+      // dbQuery()
+      // Web3Api.default.native.getBlock({
+      //   chain: "bsc",
+      //   block_number_or_hash: "2",
+      // })
+      // Moralis.Web3API.native
+      //   .getDateToBlock({ date: "01-01-2020" })
+      //   .then(console.log)
+      //   .catch((err) => console.log("the error is", JSON.stringify(err.error)))
+    );
+    async function dbQuery() {
+      try {
+        // const sessions = Moralis.Object.extend("_Session");
+        const query = new Moralis.Query(Moralis.Session);
+        console.log(new Date().toDateString());
+        // query.greaterThanOrEqualTo(
+        //   "createdAt",
+        //   new Date(new Date().toDateString())
+        // );
+        const results = await query.find({ useMasterKey: true });
+        console.log(results);
+        getDistinctSessions(results);
+      } catch (error) {
+        throw new Error(error);
+      }
+    }
+
+    function getDistinctSessions(data) {
+      const result = [];
+      data.forEach((element) => {
+        const findDuplicate = result.find(
+          (item) => item.attributes.user.id === element.attributes.user.id
+        );
+        if (!findDuplicate) result.push(element);
+      });
+      console.log("filtered", result);
+      return result;
+    }
+  </script>
+</html>

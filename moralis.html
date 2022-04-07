@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script> -->
+    <!-- <script src="http://127.0.0.1:5501/packages/sdk/dist/moralis.js"></script> -->
+    <!-- <script src="http://127.0.0.1:5500/dist/moralis.js"></script> -->
+    <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+  </head>
+  <body>
+    <form action="">
+      <button type="button" id="btn-login">Moralis Login</button>
+      <button type="button" id="btn-logout">Logout</button>
+      <button type="button" id="btn-roles">Roles</button>
+      <button type="button" id="btn-transfer">Transfer</button>
+      <button type="button" id="btn-trigger">Trigger</button>
+      <button type="button" id="btn-runPlugin">run plugin</button>
+      <button type="button" id="btn-saveFile">saveFile</button>
+      <button type="button" id="btn-runApiCall">Run Api</button>
+    </form>
+  </body>
+  <script>
+    Moralis.start({
+      // appId: "MUb0iLJ2oqu4xBZEbwnXWVNIJMuKYcy5pMdx1ERK",
+      // serverUrl: "https://y504qcjlqxz4.grandmoralis.com:2053/server",
+      appId: "qBhOuJ77S4VFUr7FlilPI6K9LsxUj1bFGM6FmZ7q",
+      serverUrl: "http://localhost:1337/server",
+      // masterKey: "MxlXYi6O6hsDTFMBGtA21CtYsiG44JPCjJwMU6CN",
+      // moralisSecret:
+      // "XXXXXX-XXXXX-XXXXX-XXXXX",
+    });
+
+    async function handleTriggers() {
+      await Moralis.enableWeb3({ chainId: 4 });
+      const trigger = await Moralis.handleTriggers(
+        [
+          {
+            name: "web3Sign",
+            message:
+              '{"types":{"EIP712Domain":[{"name":"name","type":"string"},{"name":"version","type":"string"},{"name":"chainId","type":"uint256"},{"name":"verifyingContract","type":"address"}],"Order":[{"name":"exchange","type":"address"},{"name":"maker","type":"address"},{"name":"taker","type":"address"},{"name":"makerRelayerFee","type":"uint256"},{"name":"takerRelayerFee","type":"uint256"},{"name":"makerProtocolFee","type":"uint256"},{"name":"takerProtocolFee","type":"uint256"},{"name":"feeRecipient","type":"address"},{"name":"feeMethod","type":"uint8"},{"name":"side","type":"uint8"},{"name":"saleKind","type":"uint8"},{"name":"target","type":"address"},{"name":"howToCall","type":"uint8"},{"name":"calldata","type":"bytes"},{"name":"replacementPattern","type":"bytes"},{"name":"staticTarget","type":"address"},{"name":"staticExtradata","type":"bytes"},{"name":"paymentToken","type":"address"},{"name":"basePrice","type":"uint256"},{"name":"extra","type":"uint256"},{"name":"listingTime","type":"uint256"},{"name":"expirationTime","type":"uint256"},{"name":"salt","type":"uint256"},{"name":"nonce","type":"uint256"}]},"domain":{"name":"Wyvern Exchange Contract","version":"2.3","chainId":4,"verifyingContract":"0xdd54d660178b28f6033a953b0e55073cfa7e3744"},"primaryType":"Order","message":{"maker":"0x992eccc191d6f74e8be187ed6b6ac196b08314f7","exchange":"0xdd54d660178b28f6033a953b0e55073cfa7e3744","taker":"0x0000000000000000000000000000000000000000","makerRelayerFee":"0","takerRelayerFee":"250","makerProtocolFee":"0","takerProtocolFee":"0","feeRecipient":"0x5b3256965e7c3cf26e11fcaf296dfc8807c01073","feeMethod":1,"side":0,"saleKind":0,"target":"0x45b594792a5cdc008d0de1c1d69faa3d16b3ddc1","howToCall":1,"calldata":"0xfb16a5950000000000000000000000000000000000000000000000000000000000000000000000000000000000000000992eccc191d6f74e8be187ed6b6ac196b08314f70000000000000000000000000e9076fbeb063ead63b9eeb84b41694a8bbf8ddb000000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c00000000000000000000000000000000000000000000000000000000000000000","replacementPattern":"0x00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000","staticTarget":"0x0000000000000000000000000000000000000000","staticExtradata":"0x","paymentToken":"0xc778417e063141139fce010982780140aa0cd5ab","basePrice":"100000000000000","extra":"0","listingTime":"1649079621","expirationTime":"1649598118","salt":"55101983772760824990129604082414980147390415543161208856541173374975963513100","nonce":0}}',
+            signer: "0x992eccc191d6f74e8be187ed6b6ac196b08314f7",
+            shouldAwait: true,
+            saveResponse: true,
+          },
+          {
+            name: "callPluginEndpoint",
+            pluginName: "opensea",
+            endpoint: "postOrder",
+            params: {
+              message:
+                '{"types":{"EIP712Domain":[{"name":"name","type":"string"},{"name":"version","type":"string"},{"name":"chainId","type":"uint256"},{"name":"verifyingContract","type":"address"}],"Order":[{"name":"exchange","type":"address"},{"name":"maker","type":"address"},{"name":"taker","type":"address"},{"name":"makerRelayerFee","type":"uint256"},{"name":"takerRelayerFee","type":"uint256"},{"name":"makerProtocolFee","type":"uint256"},{"name":"takerProtocolFee","type":"uint256"},{"name":"feeRecipient","type":"address"},{"name":"feeMethod","type":"uint8"},{"name":"side","type":"uint8"},{"name":"saleKind","type":"uint8"},{"name":"target","type":"address"},{"name":"howToCall","type":"uint8"},{"name":"calldata","type":"bytes"},{"name":"replacementPattern","type":"bytes"},{"name":"staticTarget","type":"address"},{"name":"staticExtradata","type":"bytes"},{"name":"paymentToken","type":"address"},{"name":"basePrice","type":"uint256"},{"name":"extra","type":"uint256"},{"name":"listingTime","type":"uint256"},{"name":"expirationTime","type":"uint256"},{"name":"salt","type":"uint256"},{"name":"nonce","type":"uint256"}]},"domain":{"name":"Wyvern Exchange Contract","version":"2.3","chainId":4,"verifyingContract":"0xdd54d660178b28f6033a953b0e55073cfa7e3744"},"primaryType":"Order","message":{"maker":"0x992eccc191d6f74e8be187ed6b6ac196b08314f7","exchange":"0xdd54d660178b28f6033a953b0e55073cfa7e3744","taker":"0x0000000000000000000000000000000000000000","makerRelayerFee":"0","takerRelayerFee":"250","makerProtocolFee":"0","takerProtocolFee":"0","feeRecipient":"0x5b3256965e7c3cf26e11fcaf296dfc8807c01073","feeMethod":1,"side":0,"saleKind":0,"target":"0x45b594792a5cdc008d0de1c1d69faa3d16b3ddc1","howToCall":1,"calldata":"0xfb16a5950000000000000000000000000000000000000000000000000000000000000000000000000000000000000000992eccc191d6f74e8be187ed6b6ac196b08314f70000000000000000000000000e9076fbeb063ead63b9eeb84b41694a8bbf8ddb000000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c00000000000000000000000000000000000000000000000000000000000000000","replacementPattern":"0x00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000","staticTarget":"0x0000000000000000000000000000000000000000","staticExtradata":"0x","paymentToken":"0xc778417e063141139fce010982780140aa0cd5ab","basePrice":"100000000000000","extra":"0","listingTime":"1649079621","expirationTime":"1649598118","salt":"55101983772760824990129604082414980147390415543161208856541173374975963513100","nonce":0}}',
+              orderSide: 0,
+            },
+            useSavedResponse: true,
+            savedResponseAs: "signature",
+            savedResponseAt: [],
+            shouldAwait: true,
+            runResponseTrigger: true,
+          },
+        ],
+        {
+          exchange: "0xdd54d660178b28f6033a953b0e55073cfa7e3744",
+          maker: "0x992eccc191d6f74e8be187ed6b6ac196b08314f7",
+          taker: "0x0000000000000000000000000000000000000000",
+          quantity: "1",
+          makerRelayerFee: "0",
+          takerRelayerFee: "250",
+          makerProtocolFee: "0",
+          takerProtocolFee: "0",
+          makerReferrerFee: "0",
+          waitingForBestCounterOrder: "false",
+          feeMethod: "1",
+          feeRecipient: "0x5b3256965e7c3cf26e11fcaf296dfc8807c01073",
+          side: "0",
+          saleKind: "0",
+          target: "0x45b594792a5cdc008d0de1c1d69faa3d16b3ddc1",
+          howToCall: "1",
+          calldata:
+            "0xfb16a5950000000000000000000000000000000000000000000000000000000000000000000000000000000000000000992eccc191d6f74e8be187ed6b6ac196b08314f70000000000000000000000000e9076fbeb063ead63b9eeb84b41694a8bbf8ddb000000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c00000000000000000000000000000000000000000000000000000000000000000",
+          replacementPattern:
+            "0x00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          staticTarget: "0x0000000000000000000000000000000000000000",
+          staticExtradata: "0x",
+          paymentToken: "0xc778417e063141139fce010982780140aa0cd5ab",
+          basePrice: "100000000000000",
+          extra: "0",
+          listingTime: "1649079621",
+          expirationTime: "1649598118",
+          salt: "55101983772760824990129604082414980147390415543161208856541173374975963513100",
+          hash: '{"types":{"EIP712Domain":[{"name":"name","type":"string"},{"name":"version","type":"string"},{"name":"chainId","type":"uint256"},{"name":"verifyingContract","type":"address"}],"Order":[{"name":"exchange","type":"address"},{"name":"maker","type":"address"},{"name":"taker","type":"address"},{"name":"makerRelayerFee","type":"uint256"},{"name":"takerRelayerFee","type":"uint256"},{"name":"makerProtocolFee","type":"uint256"},{"name":"takerProtocolFee","type":"uint256"},{"name":"feeRecipient","type":"address"},{"name":"feeMethod","type":"uint8"},{"name":"side","type":"uint8"},{"name":"saleKind","type":"uint8"},{"name":"target","type":"address"},{"name":"howToCall","type":"uint8"},{"name":"calldata","type":"bytes"},{"name":"replacementPattern","type":"bytes"},{"name":"staticTarget","type":"address"},{"name":"staticExtradata","type":"bytes"},{"name":"paymentToken","type":"address"},{"name":"basePrice","type":"uint256"},{"name":"extra","type":"uint256"},{"name":"listingTime","type":"uint256"},{"name":"expirationTime","type":"uint256"},{"name":"salt","type":"uint256"},{"name":"nonce","type":"uint256"}]},"domain":{"name":"Wyvern Exchange Contract","version":"2.3","chainId":4,"verifyingContract":"0xdd54d660178b28f6033a953b0e55073cfa7e3744"},"primaryType":"Order","message":{"maker":"0x992eccc191d6f74e8be187ed6b6ac196b08314f7","exchange":"0xdd54d660178b28f6033a953b0e55073cfa7e3744","taker":"0x0000000000000000000000000000000000000000","makerRelayerFee":"0","takerRelayerFee":"250","makerProtocolFee":"0","takerProtocolFee":"0","feeRecipient":"0x5b3256965e7c3cf26e11fcaf296dfc8807c01073","feeMethod":1,"side":0,"saleKind":0,"target":"0x45b594792a5cdc008d0de1c1d69faa3d16b3ddc1","howToCall":1,"calldata":"0xfb16a5950000000000000000000000000000000000000000000000000000000000000000000000000000000000000000992eccc191d6f74e8be187ed6b6ac196b08314f70000000000000000000000000e9076fbeb063ead63b9eeb84b41694a8bbf8ddb000000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c00000000000000000000000000000000000000000000000000000000000000000","replacementPattern":"0x00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000","staticTarget":"0x0000000000000000000000000000000000000000","staticExtradata":"0x","paymentToken":"0xc778417e063141139fce010982780140aa0cd5ab","basePrice":"100000000000000","extra":"0","listingTime":"1649079621","expirationTime":"1649598118","salt":"55101983772760824990129604082414980147390415543161208856541173374975963513100","nonce":0}}',
+          assetId: "12",
+          assetAddress: "0x0e9076fbeb063ead63b9eeb84b41694a8bbf8ddb",
+          tokenType: "ERC721",
+        }
+      );
+      console.log(trigger);
+    }
+
+    // add from here down
+    async function login() {
+      // Moralis.Plugins.pinata.authCheck();
+      let user = Moralis.User.current();
+      if (!user) {
+        user = await Moralis.authenticate();
+      }
+      console.log("logged in user:", user);
+      const role = await Moralis.User.current().get("_Role");
+      console.log(role);
+    }
+
+    async function transfer() {
+      const provider = await Moralis.enableWeb3({ chainId: 137 });
+      const options = {
+        type: "native",
+        amount: Moralis.Units.ETH("0.000001"),
+        receiver: "0x992eCcC191D6F74E8Be187ed6B6AC196b08314f7",
+      };
+      let result = await Moralis.transfer(options);
+      console.log("RESULT", result);
+    }
+
+    async function getRoles() {
+      // By specifying no write privileges for the ACL, we can ensure the role cannot be altered.
+      // const query = new Moralis.Query(Moralis.Role);
+      const results = await new Moralis.Query(Moralis.Role).find();
+      console.log(results);
+      results.map((v) => v.toJSON());
+      // results.forEach((role, i) => {
+      //   role
+      //     .getUsers()
+      //     .query()
+      //     .find()
+      //     .then((x) => console.log("users", x));
+
+      //   role
+      //     .getRoles()
+      //     .query()
+      //     .find()
+      //     .then((x) => console.log("roles", x));
+      // });
+    }
+
+    async function logOut() {
+      await Moralis.User.logOut();
+      console.log("logged out");
+    }
+
+    async function runPlugin() {
+      await Moralis.enableWeb3({ chainId: 4 });
+      await Moralis.Plugins.opensea.createBuyOrder({
+        network: "testnet",
+        tokenAddress: "0x0e9076fbeb063ead63b9eeb84b41694a8bbf8ddb",
+        tokenId: "12",
+        tokenType: "ERC721",
+        amount: 0.0001,
+        userAddress: "0x992eCcC191D6F74E8Be187ed6B6AC196b08314f7",
+        // paymentTokenAddress: "0xc778417e063141139fce010982780140aa0cd5ab",
+      });
+    }
+
+    async function saveFile() {
+      var parts = [
+        new Blob(["you construct a file..."], { type: "text/plain" }),
+        " Same way as you do with blob",
+        new Uint16Array([33]),
+      ];
+      const data = new File(parts, "fileName.txt");
+      const file = new Moralis.File("name.txt", data);
+      await file.saveIPFS();
+    }
+
+    async function runApiCall() {
+      Moralis.Web3API.native
+        .getBlock({
+          chain: "bsc",
+          block_number_or_hash: "2",
+        })
+        .then(console.log);
+    }
+
+    document.getElementById("btn-login").onclick = login;
+    document.getElementById("btn-logout").onclick = logOut;
+    document.getElementById("btn-roles").onclick = getRoles;
+    document.getElementById("btn-transfer").onclick = transfer;
+    document.getElementById("btn-trigger").onclick = handleTriggers;
+    document.getElementById("btn-runPlugin").onclick = runPlugin;
+    document.getElementById("btn-saveFile").onclick = saveFile;
+    document.getElementById("btn-runApiCall").onclick = runApiCall;
+  </script>
+</html>

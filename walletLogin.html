@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <script src="http://127.0.0.1:5500/dist/moralis.js"></script>
+  </head>
+  <body>
+    <form action="">
+      <button type="button" id="btn-login">Moralis Login</button>
+      <button type="button" id="btn-logout">Logout</button>
+      <button type="button" id="btn-validate">Validate</button>
+      <input type="text" id="token" />
+    </form>
+  </body>
+  <script>
+    Moralis.start({
+      appId: "qBhOuJ77S4VFUr7FlilPI6K9LsxUj1bFGM6FmZ7q",
+      serverUrl: "http://localhost:1337/server",
+      //   serverUrl: "https://y504qcjlqxz4.grandmoralis.com:2053/server",
+    });
+
+    // add from here down
+    async function login() {
+      let user = Moralis.User.current();
+      if (!user) {
+        user = await Moralis.authenticate();
+      }
+      console.log("logged in user:", user);
+    }
+
+    async function walletLogin() {
+      const token = await Moralis.walletLoginToken();
+      console.log("token:", token);
+    }
+
+    async function validateToken() {
+      const user = await Moralis.validateToken({
+        token: document.getElementById("token").value,
+      });
+      console.log("valid:", user);
+    }
+
+    async function logOut() {
+      await Moralis.User.logOut();
+      console.log("logged out");
+    }
+
+    document.getElementById("btn-login").onclick = walletLogin;
+    document.getElementById("btn-logout").onclick = logOut;
+    document.getElementById("btn-validate").onclick = validateToken;
+  </script>
+</html>

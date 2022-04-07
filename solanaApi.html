@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <script src="http://127.0.0.1:5500/dist/moralis.web3api.js"></script> -->
+    <script src="http://127.0.0.1:5500/dist/moralis.solanaapi.min.js"></script>
+    <!-- <script src="http://127.0.0.1:5500/dist/moralis.js"></script> -->
+    <!-- <script src="https://unpkg.com/moralis/dist/moralis.js"></script> -->
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    async function start() {
+      // await Moralis.start({
+      //   appId: "qBhOuJ77S4VFUr7FlilPI6K9LsxUj1bFGM6FmZ7q",
+      //   serverUrl: "http://localhost:1337/server",
+      // });
+      SolanaApi.default.initialize({
+        apiKey: "your-api-key",
+        // serverUrl: "https://y504qcjlqxz4.grandmoralis.com:2053/server",
+      });
+      console.log(
+        "addressbalance",
+        SolanaApi.default.account
+          .balance({
+            network: "mainnet",
+            address: "6XU36wCxWobLx5Rtsb58kmgAJKVYmMVqy4SHXxENAyAe",
+          })
+          .then(console.log)
+      );
+    }
+    start();
+  </script>
+</html>

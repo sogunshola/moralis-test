@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Moralis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body></body>
+  <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+  <script>
+    // var app = new Moralis(
+    //   "NkujuL4hWTRJrcjPxLQRunGEk6yNhylbA8VkUREwneMUQpkOPf7CEkT0m5ccjIiB"
+    // );
+    // console.log(app);
+    // app._initialize(
+    //   "NkujuL4hWTRJrcjPxLQRunGEk6yNhylbA8VkUREwneMUQpkOPf7CEkT0m5ccjIiB"
+    // );
+    Moralis.initialize("MUb0iLJ2oqu4xBZEbwnXWVNIJMuKYcy5pMdx1ERK");
+    Moralis.serverURL = "https://y504qcjlqxz4.grandmoralis.com:2053/server";
+    // await Moralis.Web3API.initialize();
+    async function login() {
+      const ratings = await Moralis.Cloud.run("test");
+      // let user = Moralis.User.current();
+      // if (!user) {
+      //   user = await Moralis.authenticate();
+      // }
+      console.log("logged in user:", ratings);
+      console.log("logged in user:", Moralis.publicServerURL);
+    }
+    async function run() {
+      const res = await Moralis.Web3API.native.runContractFunction({
+        address: "0xecc7f044aa1ce2ad9d2453b01b8732a051213ecf",
+        function_name: "totalSupply",
+        chain: "rinkeby",
+        abi: [
+          {
+            constant: true,
+            inputs: [],
+            name: "name",
+            outputs: [
+              {
+                name: "",
+                type: "string",
+              },
+            ],
+            payable: false,
+            stateMutability: "view",
+            type: "function",
+          },
+          {
+            constant: false,
+            inputs: [
+              {
+                name: "_spender",
+                type: "address",
+              },
+              {
+                name: "_value",
+                type: "uint256",
+              },
+            ],
+            name: "approve",
+            outputs: [
+              {
+                name: "",
+                type: "bool",
+              },
+            ],
+            payable: false,
+            stateMutability: "nonpayable",
+            type: "function",
+          },
+          {
+            constant: true,
+            inputs: [],
+            name: "totalSupply",
+            outputs: [
+              {
+                name: "",
+                type: "uint256",
+              },
+            ],
+            payable: false,
+            stateMutability: "view",
+            type: "function",
+          },
+          {
+            constant: false,
+            inputs: [
+              {
+                name: "_from",
+                type: "address",
+              },
+              {
+                name: "_to",
+                type: "address",
+              },
+              {
+                name: "_value",
+                type: "uint256",
+              },
+            ],
+            name: "transferFrom",
+            outputs: [
+              {
+                name: "",
+                type: "bool",
+              },
+            ],
+            payable: false,
+            stateMutability: "nonpayable",
+            type: "function",
+          },
+          {
+            constant: true,
+            inputs: [],
+            name: "decimals",
+            outputs: [
+              {
+                name: "",
+                type: "uint8",
+              },
+            ],
+            payable: false,
+            stateMutability: "view",
+            type: "function",
+          },
+          {
+            constant: true,
+            inputs: [
+              {
+                name: "_owner",
+                type: "address",
+              },
+            ],
+            name: "balanceOf",
+            outputs: [
+              {
+                name: "balance",
+                type: "uint256",
+              },
+            ],
+            payable: false,
+            stateMutability: "view",
+            type: "function",
+          },
+          {
+            constant: true,
+            inputs: [],
+            name: "symbol",
+            outputs: [
+              {
+                name: "",
+                type: "string",
+              },
+            ],
+            payable: false,
+            stateMutability: "view",
+            type: "function",
+          },
+          {
+            constant: false,
+            inputs: [
+              {
+                name: "_to",
+                type: "address",
+              },
+              {
+                name: "_value",
+                type: "uint256",
+              },
+            ],
+            name: "transfer",
+            outputs: [
+              {
+                name: "",
+                type: "bool",
+              },
+            ],
+            payable: false,
+            stateMutability: "nonpayable",
+            type: "function",
+          },
+          {
+            constant: true,
+            inputs: [
+              {
+                name: "_owner",
+                type: "address",
+              },
+              {
+                name: "_spender",
+                type: "address",
+              },
+            ],
+            name: "allowance",
+            outputs: [
+              {
+                name: "",
+                type: "uint256",
+              },
+            ],
+            payable: false,
+            stateMutability: "view",
+            type: "function",
+          },
+          {
+            payable: true,
+            stateMutability: "payable",
+            type: "fallback",
+          },
+          {
+            anonymous: false,
+            inputs: [
+              {
+                indexed: true,
+                name: "owner",
+                type: "address",
+              },
+              {
+                indexed: true,
+                name: "spender",
+                type: "address",
+              },
+              {
+                indexed: false,
+                name: "value",
+                type: "uint256",
+              },
+            ],
+            name: "Approval",
+            type: "event",
+          },
+          {
+            anonymous: false,
+            inputs: [
+              {
+                indexed: true,
+                name: "from",
+                type: "address",
+              },
+              {
+                indexed: true,
+                name: "to",
+                type: "address",
+              },
+              {
+                indexed: false,
+                name: "value",
+                type: "uint256",
+              },
+            ],
+            name: "Transfer",
+            type: "event",
+          },
+        ],
+      });
+      console.log("Running", res);
+    }
+    login();
+  </script>
+</html>
+>
